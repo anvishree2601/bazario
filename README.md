@@ -207,6 +207,8 @@ Bazario
 - Replacing **localStorage** with **MySQL database**
 - Context APIs now use **backend API calls**
 - Fallback to mock data if DB is empty (for testing)
+<br>
+Detailed backend setup and API documentation available in `/backend/README.md`
 
 ---
 
