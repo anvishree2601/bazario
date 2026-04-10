@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 
-export default function Logo({ size = 48 }) {
+export default function Logo({ size = 48, to = '/' }) {
   return (
-    <Link to="/" className="logo">
+    <Link to={to} className="logo">
       <img
         src="/logo.png"
         alt="Bazario"

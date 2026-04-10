@@ -2,24 +2,68 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import Logo from '../components/Logo'
 import { useApp } from '../context/AppContext'
+import { useSeller } from '../context/SellerContext'
+import { api, setToken } from '../api/client'
 
 export default function Login({ buyer = false }) {
   const navigate = useNavigate()
   const { setUser, setUserType } = useApp()
+  const { syncFromAuth } = useSeller()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const isBuyer = buyer
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!email || !password) return
-    setUser({ email, name: email.split('@')[0] })
-    setUserType(isBuyer ? 'buyer' : 'seller')
-    if (isBuyer) {
-      navigate('/interests')
-    } else {
-      navigate('/seller/dashboard')
+    const name = email.split('@')[0]
+
+    try {
+      if (isBuyer) {
+        const data = await api.loginBuyer(email, password)
+        setToken(data.token)
+        setUser({
+          id: data.user.id,
+          email: data.user.email,
+          name: data.user.name
+        })
+        setUserType('buyer')
+        navigate('/interests')
+      } else {
+        const data = await api.loginSeller(email, password)
+        setToken(data.token)
+        setUser({
+          id: data.seller.id,
+          email: data.seller.email,
+          name: data.seller.ownerName
+        })
+        setUserType('seller')
+        syncFromAuth({
+          email: data.seller.email,
+          name: data.seller.ownerName,
+          ownerName: data.seller.ownerName,
+          shopName: data.seller.shopName
+        })
+        navigate('/seller/dashboard')
+      }
+    } catch (err) {
+      const msg = String(err?.message || err || '')
+      const offline =
+        msg.includes('Failed to fetch') || msg.includes('NetworkError') || !navigator.onLine
+      console.warn('Login:', msg)
+      if (!offline) return
+      setToken(null)
+      if (isBuyer) {
+        setUser({ email, name })
+        setUserType('buyer')
+        navigate('/interests')
+      } else {
+        setUser({ email, name })
+        setUserType('seller')
+        syncFromAuth({ email, name })
+        navigate('/seller/dashboard')
+      }
     }
   }
 

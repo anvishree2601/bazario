@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { AppProvider, useApp } from './context/AppContext'
+import { SellerProvider } from './context/SellerContext'
 import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Interests from './pages/Interests'
@@ -9,7 +10,11 @@ import Cart from './pages/Cart'
 import Wishlist from './pages/Wishlist'
 import Orders from './pages/Orders'
 import Account from './pages/Account'
-import SellerDashboard from './pages/SellerDashboard'
+import SellerDashboardPage from './pages/seller/SellerDashboardPage'
+import SellerProductsPage from './pages/seller/SellerProductsPage'
+import SellerProductFormPage from './pages/seller/SellerProductFormPage'
+import SellerOrdersPage from './pages/seller/SellerOrdersPage'
+import SellerProfilePage from './pages/seller/SellerProfilePage'
 
 function ProtectedBuyer({ children }) {
   const { user, userType } = useApp()
@@ -24,9 +29,16 @@ function BuyerLoginRedirect() {
   return <Login buyer />
 }
 
+function SellerLoginRedirect() {
+  const { user, userType } = useApp()
+  if (user && userType === 'seller') return <Navigate to="/seller/dashboard" replace />
+  return <Login />
+}
+
 function ProtectedSeller({ children }) {
-  const { user } = useApp()
+  const { user, userType } = useApp()
   if (!user) return <Navigate to="/login/seller" replace />
+  if (userType !== 'seller') return <Navigate to="/" replace />
   return children
 }
 
@@ -35,7 +47,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<BuyerLoginRedirect />} />
-      <Route path="/login/seller" element={<Login />} />
+      <Route path="/login/seller" element={<SellerLoginRedirect />} />
       <Route
         path="/interests"
         element={
@@ -96,7 +108,47 @@ function AppRoutes() {
         path="/seller/dashboard"
         element={
           <ProtectedSeller>
-            <SellerDashboard />
+            <SellerDashboardPage />
+          </ProtectedSeller>
+        }
+      />
+      <Route
+        path="/seller/products"
+        element={
+          <ProtectedSeller>
+            <SellerProductsPage />
+          </ProtectedSeller>
+        }
+      />
+      <Route
+        path="/seller/add-product"
+        element={
+          <ProtectedSeller>
+            <SellerProductFormPage />
+          </ProtectedSeller>
+        }
+      />
+      <Route
+        path="/seller/edit-product/:id"
+        element={
+          <ProtectedSeller>
+            <SellerProductFormPage />
+          </ProtectedSeller>
+        }
+      />
+      <Route
+        path="/seller/orders"
+        element={
+          <ProtectedSeller>
+            <SellerOrdersPage />
+          </ProtectedSeller>
+        }
+      />
+      <Route
+        path="/seller/profile"
+        element={
+          <ProtectedSeller>
+            <SellerProfilePage />
           </ProtectedSeller>
         }
       />
@@ -108,7 +160,9 @@ function AppRoutes() {
 export default function App() {
   return (
     <AppProvider>
-      <AppRoutes />
+      <SellerProvider>
+        <AppRoutes />
+      </SellerProvider>
     </AppProvider>
   )
 }
