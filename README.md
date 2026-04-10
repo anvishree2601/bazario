@@ -28,7 +28,7 @@ Bazario is a full-stack dual-login e-commerce web application that connects **bu
 
 ---
 
-### 🏪 Seller Interface (Core Features Implemented, Enhancements Ongoing)
+###  Seller Interface (Core Features Implemented, Enhancements Ongoing)
 - Dual login system (Buyer & Seller)
 -  Seller Login
 -  Dashboard (planned enhancement)
@@ -38,7 +38,7 @@ Bazario is a full-stack dual-login e-commerce web application that connects **bu
 
 ---
 
-## 🎨 UI/UX Design
+##  UI/UX Design
 
 - **Primary Color:** `#FF4800`
 - **Font:** Lato
@@ -47,7 +47,7 @@ Bazario is a full-stack dual-login e-commerce web application that connects **bu
 
 ---
 
-## 🧱 Tech Stack
+##  Tech Stack
 
 ### Frontend
 - React (Vite)
@@ -69,10 +69,9 @@ Bazario is a full-stack dual-login e-commerce web application that connects **bu
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
-Bazario/
-│
+Bazario
 <br>
 ├── frontend/
 │   ├── buyer/
@@ -91,7 +90,7 @@ Bazario/
 
 ---
 
-## 🗄️ Database Schema
+##  Database Schema
 
 ### Buyers
 - id (PK)
@@ -152,7 +151,7 @@ Bazario/
 - unique constraint (buyer_id, product_id)
 ---
 
-## 🔌 API Endpoints
+##  API Endpoints
 
 ### Buyer APIs
 - `GET /buyer/:id`
