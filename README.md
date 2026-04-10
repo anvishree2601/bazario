@@ -1,38 +1,193 @@
-# Bazario
+#  Bazario  
+### Sell Anytime, Buy Anytime  
 
-**Sell Anytime, Buy Anytime** — A two-login e-commerce platform with separate access for buyers and sellers.
+Bazario is a full-stack dual-login e-commerce web application that connects **buyers and sellers on a single platform**. Buyers can explore and purchase products, while sellers can manage their shop, products, and orders efficiently.
 
-Bazario is a dual-login e-commerce web application that connects buyers and sellers on a single platform. Buyers can browse and purchase products, while sellers can manage their shop and products easily.
+---
 
-## Features
+##  Features
 
-- **Landing Page** — Logo, welcome message, and buy/sell options  
-- **Buyer Flow** — Login → Interest selection → Personalized Home  
-- **Seller Login** — For shops to manage accounts  
-- **Home Screen** — Banners, sliders, limited-time offers, personalized recommendations, search with filters  
-- **Product Details** — Images, quantity, price in ₹, description, ratings, reviews, FAQ, "More from this Shop"  
-- **Shop Info** — Shop name, owner, message/follow options  
-- **Cart** — Products, quantities, total in ₹, checkout  
-- **Saved/Wishlist** — Heart icon on products  
-- **My Orders** — Order history, message seller  
-- **Account** — Profile, settings, order history, preferences, switch to seller  
+###  Buyer Interface (Core Features Implemented, Enhancements Ongoing)
+-  Login & Authentication
+-  Interest-based personalization (planned enhancement)
+-  Home page with:
+  - Banners & sliders (UI ready, dynamic integration in progress)
+  - Limited-time offers (UI ready, dynamic integration in progress)
+  - Personalized recommendations (planned enhancement)
+-  Product search with filters
+-  Product Details:
+  - Images, price (₹), description
+  - Ratings, reviews, FAQs
+  - "More from this Shop"
+-  Cart & Checkout
+- Wishlist / Saved items
+- Order History
+- Profile & Settings
 
-## Design
+---
 
-- Primary color: `#FF4800` (buttons and headings)  
-- Font: Lato  
-- Responsive: desktop, tablet, mobile  
-- Smooth transitions, hover effects, animations  
+### 🏪 Seller Interface (Core Features Implemented, Enhancements Ongoing)
+-  Seller Login
+-  Dashboard (planned enhancement)
+-  Product Management (Add/Edit/Delete)
+-  Orders Management
+-  Seller Profile
 
-## Tech Stack
-React 18
+---
 
-React Router 6
+### 🌐 General Features
+- Dual login system (Buyer & Seller)
+- Shop pages with follow/message options (under development)
 
-Vite 5
+---
 
-## Getting Started
+## 🎨 UI/UX Design
 
-```bash
-npm install
-npm run dev
+- **Primary Color:** `#FF4800`
+- **Font:** Lato
+- Fully responsive (Desktop, Tablet, Mobile)
+- Smooth animations and transitions
+
+---
+
+## 🧱 Tech Stack
+
+### Frontend
+- React (Vite)
+- Context API (State Management)
+- CSS (Custom styling)
+
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- MySQL
+
+### ORM
+- Sequelize / Prisma
+
+### Authentication
+- JWT (JSON Web Tokens)
+
+---
+
+## 📂 Project Structure
+
+Bazario/
+│
+├── frontend/
+│   ├── buyer/
+│   ├── seller/
+│   └── context/
+│
+├── backend/
+│   ├── routes/
+│   ├── controllers/
+│   ├── models/
+│   ├── middleware/
+│   └── config/
+│
+└── database/
+    └── schema.sql
+
+---
+
+## 🗄️ Database Schema
+
+### Buyers
+- id, name, email, password
+- interests (JSON)
+- created_at, updated_at
+
+### Sellers
+- id, shop_name, owner_name
+- email, password
+- created_at, updated_at
+
+### Products
+- id, seller_id (FK)
+- name, category, price
+- description, image_urls (JSON)
+
+### Orders
+- id, buyer_id (FK), seller_id (FK)
+- total_price, status
+
+### Order Items
+- id, order_id (FK)
+- product_id (FK), quantity, price
+
+---
+
+## 🔌 API Endpoints
+
+### Buyer APIs
+- `GET /buyer/:id`
+- `PUT /buyer/:id`
+- `GET /cart/:buyerId`
+- `POST /cart/:buyerId`
+- `PUT /cart/:buyerId`
+- `DELETE /cart/:buyerId/:productId`
+- `GET /wishlist/:buyerId`
+- `POST /wishlist/:buyerId`
+- `DELETE /wishlist/:buyerId/:productId`
+- `GET /orders/:buyerId`
+- `POST /orders/:buyerId`
+
+---
+
+### Seller APIs
+- `GET /seller/:id`
+- `PUT /seller/:id`
+- `GET /seller/:id/products`
+- `POST /seller/:id/products`
+- `PUT /seller/:id/products/:productId`
+- `DELETE /seller/:id/products/:productId`
+- `GET /seller/:id/orders`
+- `PUT /seller/:id/orders/:orderId`
+
+---
+
+## Authentication
+
+- JWT-based authentication
+- Protected routes:
+  - Buyers cannot access seller routes
+  - Sellers cannot access buyer routes
+- Existing login UI connected to backend
+
+---
+
+## Current Status
+
+| Module        | Status         |
+|--------------|---------------|
+| Buyer UI      |  Enhancements Ongoing |
+| Seller UI     |  Enhancements Ongoing |
+| Backend       |  In Progress |
+| Database      |  Integrated  |
+| localStorage  |  Replaced with API-driven state (fallback support enabled) |
+
+---
+
+## Backend Integration Update
+
+- Replacing **localStorage** with **MySQL database**
+- Context APIs now use **backend API calls**
+- Fallback to mock data if DB is empty (for testing)
+
+---
+## Future Improvements
+ Payment Gateway Integration
+ Real-time Order Tracking
+ Notifications System
+ Advanced Reviews & Ratings
+ Seller Analytics Dashboard
+ Buyer's Interest-based personalization
+ Personalized recommendations
+
+
+## Author
+Anvi Shree
+
