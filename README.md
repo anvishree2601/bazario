@@ -8,6 +8,7 @@ Bazario is a full-stack dual-login e-commerce web application that connects **bu
 ##  Features
 
 ###  Buyer Interface (Core Features Implemented, Enhancements Ongoing)
+- Dual login system (Buyer & Seller)
 -  Login & Authentication
 -  Interest-based personalization (planned enhancement)
 -  Home page with:
@@ -19,6 +20,7 @@ Bazario is a full-stack dual-login e-commerce web application that connects **bu
   - Images, price (₹), description
   - Ratings, reviews, FAQs
   - "More from this Shop"
+- Shop pages with follow/message options (under development)
 -  Cart & Checkout
 - Wishlist / Saved items
 - Order History
@@ -27,17 +29,12 @@ Bazario is a full-stack dual-login e-commerce web application that connects **bu
 ---
 
 ### 🏪 Seller Interface (Core Features Implemented, Enhancements Ongoing)
+- Dual login system (Buyer & Seller)
 -  Seller Login
 -  Dashboard (planned enhancement)
 -  Product Management (Add/Edit/Delete)
 -  Orders Management
 -  Seller Profile
-
----
-
-### 🌐 General Features
-- Dual login system (Buyer & Seller)
-- Shop pages with follow/message options (under development)
 
 ---
 
@@ -76,18 +73,19 @@ Bazario is a full-stack dual-login e-commerce web application that connects **bu
 
 Bazario/
 │
+<br>
 ├── frontend/
 │   ├── buyer/
 │   ├── seller/
 │   └── context/
-│
+<br>
 ├── backend/
 │   ├── routes/
 │   ├── controllers/
 │   ├── models/
 │   ├── middleware/
 │   └── config/
-│
+<br>
 └── database/
     └── schema.sql
 
@@ -96,28 +94,62 @@ Bazario/
 ## 🗄️ Database Schema
 
 ### Buyers
-- id, name, email, password
+- id (PK)
+- name
+- email (unique)
+- password
 - interests (JSON)
-- created_at, updated_at
+- created_at
+- updated_at
 
 ### Sellers
-- id, shop_name, owner_name
-- email, password
-- created_at, updated_at
+- id (PK)
+- shop_name
+- owner_name
+- email (unique)
+- password
+- created_at
+- updated_at
 
 ### Products
-- id, seller_id (FK)
-- name, category, price
-- description, image_urls (JSON)
+- id (PK)
+- seller_id (FK → sellers.id)
+- name
+- category
+- price
+- description
+- image_urls (JSON)
+- created_at
+- updated_at
 
 ### Orders
-- id, buyer_id (FK), seller_id (FK)
-- total_price, status
+- id (PK)
+- buyer_id (FK → buyers.id)
+- seller_id (FK → sellers.id)
+- total_price
+- status (default: Confirmed)
+- created_at
+- updated_at
 
 ### Order Items
-- id, order_id (FK)
-- product_id (FK), quantity, price
+- id (PK)
+- order_id (FK → orders.id)
+- product_id (FK → products.id)
+- quantity
+- price
 
+### Cart
+- id (PK)
+- buyer_id (FK → buyers.id)
+- product_id (FK → products.id)
+- quantity (default: 1)
+- unique constraint (buyer_id, product_id)
+
+### Wishlist
+- id (PK)
+- buyer_id (FK → buyers.id)
+- product_id (FK → products.id)
+- unique constraint (buyer_id, product_id)
 ---
 
 ## 🔌 API Endpoints
@@ -178,14 +210,15 @@ Bazario/
 - Fallback to mock data if DB is empty (for testing)
 
 ---
+
 ## Future Improvements
- Payment Gateway Integration
- Real-time Order Tracking
- Notifications System
- Advanced Reviews & Ratings
- Seller Analytics Dashboard
- Buyer's Interest-based personalization
- Personalized recommendations
+- Payment Gateway Integration
+- Real-time Order Tracking
+- Notifications System
+- Advanced Reviews & Ratings
+- Seller Analytics Dashboard
+- Buyer's Interest-based Personalization
+- Personalized Recommendations 
 
 
 ## Author
