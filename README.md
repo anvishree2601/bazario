@@ -62,7 +62,7 @@ Bazario is a full-stack dual-login e-commerce web application that connects **bu
 - MySQL
 
 ### ORM
-- Sequelize / Prisma
+- Sequelize 
 
 ### Authentication
 - JWT (JSON Web Tokens)
